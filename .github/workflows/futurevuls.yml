@@ -1,0 +1,38 @@
+name: FutureVuls
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  futurevuls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Scan libraries
+        env:
+          VULS_SAAS_GROUPID: ${{ secrets.VULS_SAAS_GROUPID }}
+          VULS_SAAS_TOKEN: ${{ secrets.VULS_SAAS_TOKEN }}
+          TARGET_LIBRARY: ${{ github.workspace }}
+          VULS_SAAS_UUID: ${{ secrets.VULS_SERVER_UUID }}
+        run: |
+          curl -fsSL -o vuls-trivy-light.sh https://installer.vuls.biz/vuls-trivy-light.sh
+          bash vuls-trivy-light.sh inst
+
+      - name: Wait for import
+        run: sleep 180
+
+      # ▼ ステップ8で "123456" を本物のIDに書き換えてから、下の行頭の「# 」を消す
+      # - name: Reachability analysis
+      #   env:
+      #     VULS_SAAS_TOKEN: ${{ secrets.VULS_SAAS_TOKEN }}
+      #     VULS_SERVER_UUID: ${{ secrets.VULS_SERVER_UUID }}
+      #     VULS_REACH_TARGETS: "123456:go.mod"
+      #   run: |
+      #     curl -fsSL -o vuls-reach-light.sh https://installer.vuls.biz/vuls-reach-light.sh
+      #     bash vuls-reach-light.sh scan
