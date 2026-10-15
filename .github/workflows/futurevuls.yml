@@ -28,11 +28,11 @@ jobs:
         run: sleep 180
 
       # ▼ ステップ8で "123456" を本物のIDに書き換えてから、下の行頭の「# 」を消す
-      # - name: Reachability analysis
-      #   env:
-      #     VULS_SAAS_TOKEN: ${{ secrets.VULS_SAAS_TOKEN }}
-      #     VULS_SERVER_UUID: ${{ secrets.VULS_SERVER_UUID }}
-      #     VULS_REACH_TARGETS: "123456:go.mod"
-      #   run: |
-      #     curl -fsSL -o vuls-reach-light.sh https://installer.vuls.biz/vuls-reach-light.sh
-      #     bash vuls-reach-light.sh scan
+      - name: Reachability analysis
+        env:
+          VULS_SAAS_TOKEN: ${{ secrets.VULS_SAAS_TOKEN }}
+        VULS_SERVER_UUID: ${{ secrets.VULS_SERVER_UUID }}
+          VULS_REACH_TARGETS: "107812605:go.mod"
+        run: |
+          curl -fsSL -o vuls-reach-light.sh https://installer.vuls.biz/vuls-reach-light.sh
+          bash vuls-reach-light.sh scan
