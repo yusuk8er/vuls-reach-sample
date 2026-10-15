@@ -31,7 +31,7 @@ jobs:
         env:
           VULS_SAAS_TOKEN: ${{ secrets.VULS_SAAS_TOKEN }}
           VULS_SERVER_UUID: ${{ secrets.VULS_SERVER_UUID }}
-          VULS_REACH_TARGETS: "107812605:go.mod"
+          VULS_REACH_TARGETS: "107812605:${{ github.workspace }}/go.mod"
         run: |
           curl -fsSL -o vuls-reach-light.sh https://installer.vuls.biz/vuls-reach-light.sh
           bash vuls-reach-light.sh scan
